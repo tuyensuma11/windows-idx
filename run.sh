@@ -12,12 +12,12 @@ RAM="8G"
 CORES="4"
 THREADS="2"
 
-VNC_DISPLAY=":0"   # 5900
+VNC_DISPLAY=":0"   # => port 5900
 RDP_PORT="3389"
 
 ### CHECK KVM ###
 if [ ! -e /dev/kvm ]; then
-  echo "❌ /dev/kvm không tồn tại → không phải KVM"
+  echo "❌ /dev/kvm không tồn tại → KHÔNG PHẢI KVM"
   exit 1
 fi
 
@@ -43,7 +43,7 @@ else
   echo "✅ disk đã tồn tại"
 fi
 
-echo "🚀 Windows 11 KVM BIOS + SATA(AHCI)"
+echo "🚀 Windows 11 KVM BIOS + SCSI (LSI)"
 echo "🖥️  VNC : localhost:5900"
 echo "🖧  RDP : localhost:3389"
 
@@ -57,14 +57,10 @@ qemu-system-x86_64 \
   -rtc base=localtime \
   -boot menu=on \
   \
-  -device ich9-ahci,id=ahci \
-  -drive id=disk0,file=${DISK_FILE},if=none,format=qcow2 \
-  -device ide-hd,drive=disk0,bus=ahci.0 \
+  -device lsi53c895a,id=scsi0 \
+  -drive file=${DISK_FILE},if=none,format=qcow2,id=hd0 \
+  -device scsi-hd,drive=hd0,bus=scsi0.0 \
   \
   -cdrom ${ISO_FILE} \
   \
-  -netdev user,id=n0,hostfwd=tcp::${RDP_PORT}-:3389 \
-  -device e1000,netdev=n0 \
-  \
-  -vnc ${VNC_DISPLAY} \
-  -usb -device usb-tablet
+  -netdev user,id
