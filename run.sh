@@ -145,29 +145,18 @@ echo "Cong tcp 3389 (RDP) : $RDP_ADDR"
 
 
 qemu-system-x86_64 \
-
   -enable-kvm \
-
   -cpu host \
-
   -smp 2 \
-
   -m 4G \
-
   -machine q35 \
-
   -drive file=/win11.qcow2,if=ide,format=qcow2 \
-
   -cdrom /win11-gamer.iso \
-
   -boot order=d \
-
   -netdev user,id=net0,hostfwd=tcp::3389-:3389 \
-
   -vnc :0 \
-
+  -no-reboot \
   -usb -device usb-tablet &
-
 
 
 cd /home/user/windows-idx/
