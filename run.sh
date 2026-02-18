@@ -6,7 +6,7 @@ ISO_URL="X23-81951_26100.1742.240906-0331.ge_release_svc_refresh_CLIENT_ENTERPRI
 ISO_FILE="win11-gamer.iso"
 
 DISK_FILE="/var/win11.qcow2"
-DISK_SIZE="120gb"
+DISK_SIZE="120G"
 
 RAM="8G"
 CORES="4"
